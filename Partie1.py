@@ -87,13 +87,13 @@ for i in range(71):
      signal = VecR[:,i]
      if  max(signal) >= 0.1 and tau_k[np.argmax(signal)] != 0:
          VecUc.append(r[i]*1e-3/tau_k[np.argmax(signal)])
-Uc = np.mean(VecUc)
-print("Uc =" , Uc*2)
+#Uc = np.mean(VecUc)
+#print("Uc =" , Uc*2)
 
 
 
 #Uc = 0.03836
-#Uc = 1.15
+Uc = 1.15
 
 #Tourbillons
 
@@ -113,13 +113,13 @@ def recupereDonnees(chemin):
     X,Y,u,v=np.array(X),np.array(Y),np.array(u)-Uc,np.array(v)
     return X,Y,u,v
 
-#for file in file_names :
+for file in file_names :
     file_path = os.path.join(folder_path, file)
     X1,Y1,u1,v1 = recupereDonnees(file_path)
     plt.figure(file)
     X, Y = np.meshgrid(np.unique(X1), np.unique(Y1))
     CS = plt.streamplot(X, Y, u1.reshape(X.shape), v1.reshape(X.shape),density=2)
-    #CS=plt.contour(X, Y, u1.reshape(X.shape),50,cmap='coolwarm')
+    #CS=plt.contour(X,  Y, u1.reshape(X.shape),50,cmap='coolwarm')
     #cbar = plt.colorbar(CS)
     #cbar.ax.set_ylabel('u')
     plt.xlabel('x')
