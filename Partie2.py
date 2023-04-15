@@ -24,8 +24,11 @@ dVdx = np.diff(VecV, axis=0)/X20[1]
 dVdy = np.diff(VecV, axis=1)/(Y20[71]-Y20[70])
 
 omega = dVdy[:-1] - dUdx[:,:-1]
+omega2 = omega*(omega>0)
 
 Q = -0.5*(dUdx[:,:-1]**2 + dVdy[:-1]**2 + 2*dUdy[:-1]*dVdx[:,:-1])
+
+Q2 = (-0.5*(dUdx[:,:-1]**2 + dVdy[:-1]**2 + 2*dUdy[:-1]*dVdx[:,:-1]))*(Q>0)
 
 #Affichage du champ de vitesse
 plt.figure("Omega")
@@ -36,10 +39,27 @@ plt.xlabel('x')
 plt.ylabel('y')
 plt.show()
 
+plt.figure("Omega2")
+CS = plt.contourf(xmesh[:-1,:-1], ymesh[:-1,:-1], omega2,25, cmap='coolwarm')
+cbar = plt.colorbar(CS)
+cbar.ax.set_ylabel('w > 0')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.show()
+
+
 plt.figure("Q")
 CS2 = plt.contourf(xmesh[:-1,:-1], ymesh[:-1,:-1], Q ,25, cmap='coolwarm')
 cbar = plt.colorbar(CS2)
 cbar.ax.set_ylabel('Q')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.show()
+
+plt.figure("Q2")
+CS2 = plt.contourf(xmesh[:-1,:-1], ymesh[:-1,:-1], Q2 ,25, cmap='coolwarm')
+cbar = plt.colorbar(CS2)
+cbar.ax.set_ylabel('Q > 0')
 plt.xlabel('x')
 plt.ylabel('y')
 plt.show()
