@@ -23,7 +23,7 @@ for file in file_names :
     X1,Y1,u1,v1 = recupereDonnees(file_path)
     plt.figure(file)
     X, Y = np.meshgrid(np.unique(X1), np.unique(Y1))
-    plt.contourf(X, Y, u1.reshape(X.shape),25)
+    plt.contourf(X, Y, u1.reshape(X.shape),25,cmap='coolwarm')
     plt.xlabel('x')
     plt.ylabel('y')
     plt.show()

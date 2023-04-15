@@ -36,7 +36,7 @@ u_0,v_0,x_0 = VecU[36],VecV[36],VecX[36]
 
 r = VecX-x_0
 
-dt = 0.025
+dt = 0.0025
 N = 1632
 K = 50
 liste_k = np.arange(-K,K,1)
@@ -55,10 +55,9 @@ for n in range(71):
     u_i = VecU[n]
     for k in liste_kpos:
         MoyTempDisc_i = MoyTempDisc(N,k,u_0,u_i)
+        MoyTempDisc_i2 = MoyTempDisc(N,k,u_i,u_0)
         VecR[K+k,n] = MoyTempDisc_i/(VecUmoy[n]*VecUmoy[36])
-        VecR[K-k,n] = MoyTempDisc_i/(VecUmoy[n]*VecUmoy[36])
-
-print(VecR)
+        VecR[K-k,n] = MoyTempDisc_i2/(VecUmoy[n]*VecUmoy[36])
 
 meshtau, meshr = np.meshgrid(tau_k, r)
 CS = plt.contourf(r, tau_k, VecR, 25 , cmap='coolwarm')
@@ -67,6 +66,34 @@ plt.ylabel('tau')
 cbar = plt.colorbar(CS)
 cbar.ax.set_ylabel('R')
 plt.show()
+
+VecUc = []
+
+# for i in range(len(tau_k)):
+#     r_max = r[np.argmax(VecR[i])]*1e-3
+#     print(r_max)
+#     if max(VecR[i]) >= 0.3 and tau_k[i] != 0:
+#         print(tau_k[i])
+#         VecUc.append(r_max/tau_k[i])
+# Uc = np.mean(VecUc)   
+
+# for i in range(71):
+#     signal = VecR[:,i]
+#     r_max = r[i]*1e-3
+#     if  max(signal) >= 0.3 and tau_k[np.argmax(signal)] != 0:
+#         VecUc.append(abs(r_max)/abs(tau_k[np.argmax(signal)]))
+
+for i in range(71):
+     signal = VecR[:,i]
+     if  max(signal) >= 0.1 and tau_k[np.argmax(signal)] != 0:
+         VecUc.append(r[i]*1e-3/tau_k[np.argmax(signal)])
+Uc = np.mean(VecUc)
+print("Uc =" , Uc*2)
+
+
+
+#Uc = 0.03836
+#Uc = 1.15
 
 #Tourbillons
 
@@ -83,15 +110,18 @@ def recupereDonnees(chemin):
         Y.append(float(line.split()[1]))
         u.append(float(line.split()[2]))
         v.append(float(line.split()[3]))
-    X,Y,u,v=np.array(X),np.array(Y),np.array(u)-0.25,np.array(v)
+    X,Y,u,v=np.array(X),np.array(Y),np.array(u)-Uc,np.array(v)
     return X,Y,u,v
 
-for file in file_names :
+#for file in file_names :
     file_path = os.path.join(folder_path, file)
     X1,Y1,u1,v1 = recupereDonnees(file_path)
     plt.figure(file)
     X, Y = np.meshgrid(np.unique(X1), np.unique(Y1))
-    plt.contourf(X, Y, u1.reshape(X.shape),25)
+    CS = plt.streamplot(X, Y, u1.reshape(X.shape), v1.reshape(X.shape),density=2)
+    #CS=plt.contour(X, Y, u1.reshape(X.shape),50,cmap='coolwarm')
+    #cbar = plt.colorbar(CS)
+    #cbar.ax.set_ylabel('u')
     plt.xlabel('x')
     plt.ylabel('y')
     plt.show()
