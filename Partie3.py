@@ -19,9 +19,9 @@ def CalculPosition(X,Y,U,V,dt):
         for j in range(c):
             Xnew[i,j] = X[i,j] - U[i,j]*dt
             Ynew[i,j] = Y[i,j] - V[i,j]*dt
-            if (X[i,j] < 0 and X[i,j] > 671):
+            if (X[i,j] < 0 and X[i,j] > 67.14*1e-3):
                 Xnew[i,j] = X[i,j]
-            if (Y[i,j] < -9.49 and Y[i,j] > 9.876):
+            if (Y[i,j] < -9.49*1e-3 and Y[i,j] > 9.877*1e-3):
                 Ynew[i,j] = Y[i,j]
     return Xnew,Ynew
 
@@ -47,15 +47,58 @@ dt = 25e-3
 def CalculChamp(X,Y,U,V,dt):
     Xnew,Ynew = CalculPosition(X,Y,U,V,dt)
     Unew = interpolation(U,Xnew,X)
-    print(Unew)
     Vnew = interpolation(V,Ynew,Y)
     return Xnew,Ynew,Unew,Vnew
 
-X,Y,U,V = X20,Y20,U20,V20
+X19,Y19,U19,V19 = CalculChamp(X20,Y20,U20,V20,dt)
+X18,Y18,U18,V18 = CalculChamp(X19,Y19,U19,V19,dt)
+X17,Y17,U17,V17 = CalculChamp(X18,Y18,U18,V18,dt)
+X16,Y16,U16,V16 = CalculChamp(X17,Y17,U17,V17,dt)
+X15,Y15,U15,V15 = CalculChamp(X16,Y16,U16,V16,dt)
+X14,Y14,U14,V14 = CalculChamp(X15,Y15,U15,V15,dt)
+X13,Y13,U13,V13 = CalculChamp(X14,Y14,U14,V14,dt)
+X12,Y12,U12,V12 = CalculChamp(X13,Y13,U13,V13,dt)
+X11,Y11,U11,V11 = CalculChamp(X12,Y12,U12,V12,dt)
+X10,Y10,U10,V10 = CalculChamp(X11,Y11,U11,V11,dt)
+X9,Y9,U9,V9 = CalculChamp(X10,Y10,U10,V10,dt)
+X8,Y8,U8,V8 = CalculChamp(X9,Y9,U9,V9,dt)
+X7,Y7,U7,V7 = CalculChamp(X8,Y8,U8,V8,dt)
+X6,Y6,U6,V6 = CalculChamp(X7,Y7,U7,V7,dt)
+X5,Y5,U5,V5 = CalculChamp(X6,Y6,U6,V6,dt)
+X4,Y4,U4,V4 = CalculChamp(X5,Y5,U5,V5,dt)
+X3,Y3,U3,V3 = CalculChamp(X4,Y4,U4,V4,dt)
+X2,Y2,U2,V2 = CalculChamp(X3,Y3,U3,V3,dt)
+X1,Y1,U1,V1 = CalculChamp(X2,Y2,U2,V2,dt)
 
-for i in range(20):
-    X,Y,U,V = CalculChamp(X,Y,U,V,dt)
-    plt.contourf(X, Y, U,25, cmap='coolwarm')
-    plt.xlabel('x')
-    plt.ylabel('y')
-    plt.show()
+dx = (X20[0,1]-X20[0,0])
+dy = (Y20[1,0]-Y20[0,0])
+
+dX1dx20 = np.gradient(X1,dx,axis=0)
+dX1dy20 = np.gradient(X1,dy,axis=1)
+
+dY1dx20 = np.gradient(Y1,dx,axis=0)
+dY1dy20 = np.gradient(Y1,dy,axis=1)
+
+VPmax = np.zeros((dX1dy20.shape))
+
+for i in range(dX1dx20.shape[0]):
+    for j in range(dX1dx20.shape[1]):
+            A = np.zeros((2,2))
+            A[0,0] = dX1dx20[i,j]
+            A[0,1] = dX1dy20[i,j]
+            A[1,0] = dY1dx20[i,j]
+            A[1,1] = dY1dy20[i,j]
+            At= np.transpose(A)
+            VPmax[i,j]=max(np.linalg.eigvals(np.dot(At,A)))
+
+T = 19*dt
+
+FTLE = np.log(VPmax)/(2*T)
+
+
+CS=plt.contourf(X1, Y1, FTLE,25, cmap='coolwarm')
+cbar = plt.colorbar(CS)
+cbar.ax.set_ylabel('FTLE')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.show()
