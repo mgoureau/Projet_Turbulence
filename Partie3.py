@@ -96,12 +96,11 @@ T = 19*dt
 
 FTLE = np.log(VPmax)/(2*T)
 
-
 CS=plt.contourf(X1, Y1, FTLE,25, cmap='coolwarm')
 xmesh, ymesh = np.meshgrid(np.unique(X20), np.unique(Y20))
 # plt.quiver(xmesh, ymesh, U20, V20, color='k', scale=75)
-# cbar = plt.colorbar(CS)
-# cbar.ax.set_ylabel('FTLE')
+cbar = plt.colorbar(CS)
+cbar.ax.set_ylabel('FTLE')
 plt.xlabel('x')
 plt.ylabel('y')
 plt.show()
