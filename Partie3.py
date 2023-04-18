@@ -74,11 +74,11 @@ X1,Y1,U1,V1 = CalculChamp(X2,Y2,U2,V2,dt)
 dx = (X20[0,1]-X20[0,0])
 dy = (Y20[1,0]-Y20[0,0])
 
-dX1dx20 = np.gradient(X1,dx,axis=0)
-dX1dy20 = np.gradient(X1,dy,axis=1)
+dX1dx20 = np.gradient(X1,dx,axis=1)
+dX1dy20 = np.gradient(X1,dy,axis=0)
 
-dY1dx20 = np.gradient(Y1,dx,axis=0)
-dY1dy20 = np.gradient(Y1,dy,axis=1)
+dY1dx20 = np.gradient(Y1,dx,axis=1)
+dY1dy20 = np.gradient(Y1,dy,axis=0)
 
 VPmax = np.zeros((dX1dy20.shape))
 
@@ -99,7 +99,7 @@ FTLE = np.log(VPmax)/(2*T)
 
 CS=plt.contourf(X1, Y1, FTLE,25, cmap='coolwarm')
 xmesh, ymesh = np.meshgrid(np.unique(X20), np.unique(Y20))
-plt.quiver(xmesh, ymesh, U20, V20, color='k', scale=75)
+# plt.quiver(xmesh, ymesh, U20, V20, color='k', scale=75)
 # cbar = plt.colorbar(CS)
 # cbar.ax.set_ylabel('FTLE')
 plt.xlabel('x')
