@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy import interpolate
 
 def interpolation(Vitesse,Positionnew,Positionold):
     l,c = Vitesse.shape
@@ -19,9 +20,9 @@ def CalculPosition(X,Y,U,V,dt):
         for j in range(c):
             Xnew[i,j] = X[i,j] - U[i,j]*dt
             Ynew[i,j] = Y[i,j] - V[i,j]*dt
-            if (X[i,j] < 0 and X[i,j] > 67.14*1e-3):
+            if (X[i,j] < 0 and X[i,j] > 6.71391989E+01):
                 Xnew[i,j] = X[i,j]
-            if (Y[i,j] < -9.49*1e-3 and Y[i,j] > 9.877*1e-3):
+            if (Y[i,j] < -9.49012463 and Y[i,j] > 9.87634180):
                 Ynew[i,j] = Y[i,j]
     return Xnew,Ynew
 
@@ -97,8 +98,10 @@ FTLE = np.log(VPmax)/(2*T)
 
 
 CS=plt.contourf(X1, Y1, FTLE,25, cmap='coolwarm')
-cbar = plt.colorbar(CS)
-cbar.ax.set_ylabel('FTLE')
+xmesh, ymesh = np.meshgrid(np.unique(X20), np.unique(Y20))
+plt.quiver(xmesh, ymesh, U20, V20, color='k', scale=75)
+# cbar = plt.colorbar(CS)
+# cbar.ax.set_ylabel('FTLE')
 plt.xlabel('x')
 plt.ylabel('y')
 plt.show()

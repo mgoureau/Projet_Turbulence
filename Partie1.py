@@ -38,7 +38,7 @@ r = VecX-x_0
 
 dt = 0.0025
 N = 1632
-K = 50
+K = 100
 liste_k = np.arange(-K,K,1)
 liste_kpos = np.arange(0,K,1)
 tau_k = liste_k * dt
@@ -86,14 +86,11 @@ VecUc = []
 for i in range(71):
      signal = VecR[:,i]
      if  max(signal) >= 0.1 and tau_k[np.argmax(signal)] != 0:
-         VecUc.append(r[i]*1e-3/tau_k[np.argmax(signal)])
-#Uc = np.mean(VecUc)
-#print("Uc =" , Uc*2)
+         VecUc.append(abs(r[i]*1e-3/tau_k[np.argmax(signal)]))
+Uc1 = np.mean(VecUc)
+print("Uc =" , Uc1*2)
 
-
-
-#Uc = 0.03836
-Uc = 1.15
+Uc=Uc1*2
 
 #Tourbillons
 
@@ -110,18 +107,19 @@ def recupereDonnees(chemin):
         Y.append(float(line.split()[1]))
         u.append(float(line.split()[2]))
         v.append(float(line.split()[3]))
-    X,Y,u,v=np.array(X),np.array(Y),np.array(u)-Uc,np.array(v)
+    X,Y,u,v=np.array(X),np.array(Y),np.array(u),np.array(v)
     return X,Y,u,v
 
-for file in file_names :
-    file_path = os.path.join(folder_path, file)
-    X1,Y1,u1,v1 = recupereDonnees(file_path)
-    plt.figure(file)
-    X, Y = np.meshgrid(np.unique(X1), np.unique(Y1))
-    CS = plt.streamplot(X, Y, u1.reshape(X.shape), v1.reshape(X.shape),density=2)
-    #CS=plt.contour(X,  Y, u1.reshape(X.shape),50,cmap='coolwarm')
-    #cbar = plt.colorbar(CS)
-    #cbar.ax.set_ylabel('u')
-    plt.xlabel('x')
-    plt.ylabel('y')
-    plt.show()
+file = file_names[-1]
+file_path = os.path.join(folder_path, file)
+X1,Y1,u1,v1 = recupereDonnees(file_path)
+plt.figure(file)
+X, Y = np.meshgrid(np.unique(X1), np.unique(Y1))
+plt.streamplot(X, Y, u1.reshape(X.shape), v1.reshape(X.shape),density=2)
+plt.xlabel('x')
+plt.ylabel('y')
+plt.show()
+plt.quiver(X, Y, u1.reshape(X.shape), v1.reshape(X.shape),color='r')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.show()
