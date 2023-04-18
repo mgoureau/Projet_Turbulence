@@ -20,9 +20,9 @@ def CalculPosition(X,Y,U,V,dt):
         for j in range(c):
             Xnew[i,j] = X[i,j] - U[i,j]*dt
             Ynew[i,j] = Y[i,j] - V[i,j]*dt
-            if (X[i,j] < 0 and X[i,j] > 6.71391989E+01):
+            if (Xnew[i,j] < 0 and Xnew[i,j] > 6.71391989E+01):
                 Xnew[i,j] = X[i,j]
-            if (Y[i,j] < -9.49012463 and Y[i,j] > 9.87634180):
+            if (Ynew[i,j] < -9.49012463 and Ynew[i,j] > 9.87634180):
                 Ynew[i,j] = Y[i,j]
     return Xnew,Ynew
 
@@ -30,8 +30,8 @@ with open('./champs/champ0020.dat', 'r') as f:
     champs20 = f.readlines()
 x20,y20,u20,v20 = [],[],[],[]
 for line in champs20[2::]:
-    x20.append(float(line.split()[0]))
-    y20.append(float(line.split()[1]))
+    x20.append(float(line.split()[0])/2)
+    y20.append(float(line.split()[1])/2)
     u20.append(float(line.split()[2]))
     v20.append(float(line.split()[3]))
 X20,Y20,u20,v20=np.array(x20),np.array(y20),np.array(u20),np.array(v20)

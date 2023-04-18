@@ -68,14 +68,16 @@ cbar.ax.set_ylabel('R')
 plt.show()
 
 VecUc = []
+VecUc2 = []
+for i in range(len(tau_k)):
+    r_max = r[np.argmax(VecR[i])]*1e-3
+    print(r_max)
+    if max(VecR[i]) >= 0.3 and tau_k[i] != 0:
+        print(tau_k[i])
+        VecUc2.append(r_max/tau_k[i])
+Uc2 = np.mean(VecUc2)   
 
-# for i in range(len(tau_k)):
-#     r_max = r[np.argmax(VecR[i])]*1e-3
-#     print(r_max)
-#     if max(VecR[i]) >= 0.3 and tau_k[i] != 0:
-#         print(tau_k[i])
-#         VecUc.append(r_max/tau_k[i])
-# Uc = np.mean(VecUc)   
+print("Uc2 =" , Uc2)
 
 # for i in range(71):
 #     signal = VecR[:,i]
@@ -88,9 +90,11 @@ for i in range(71):
      if  max(signal) >= 0.1 and tau_k[np.argmax(signal)] != 0:
          VecUc.append(abs(r[i]*1e-3/tau_k[np.argmax(signal)]))
 Uc1 = np.mean(VecUc)
-print("Uc =" , Uc1*2)
+print("Uc =" , Uc1)
 
-Uc=Uc1*2
+#Uc=Uc1*2
+
+Uc = 0.3
 
 #Tourbillons
 
@@ -107,7 +111,7 @@ def recupereDonnees(chemin):
         Y.append(float(line.split()[1]))
         u.append(float(line.split()[2]))
         v.append(float(line.split()[3]))
-    X,Y,u,v=np.array(X),np.array(Y),np.array(u),np.array(v)
+    X,Y,u,v=np.array(X),np.array(Y),np.array(u)-Uc,np.array(v)
     return X,Y,u,v
 
 file = file_names[-1]
