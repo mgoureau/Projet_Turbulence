@@ -71,9 +71,7 @@ VecUc = []
 VecUc2 = []
 for i in range(len(tau_k)):
     r_max = r[np.argmax(VecR[i])]*1e-3
-    print(r_max)
     if max(VecR[i]) >= 0.3 and tau_k[i] != 0:
-        print(tau_k[i])
         VecUc2.append(r_max/tau_k[i])
 Uc2 = np.mean(VecUc2)   
 
@@ -90,11 +88,11 @@ for i in range(71):
      if  max(signal) >= 0.1 and tau_k[np.argmax(signal)] != 0:
          VecUc.append(abs(r[i]*1e-3/tau_k[np.argmax(signal)]))
 Uc1 = np.mean(VecUc)
-print("Uc =" , Uc1)
+print("Uc1 =" , Uc1)
 
 #Uc=Uc1*2
 
-Uc = 0.3
+Uc = Uc1
 
 #Tourbillons
 
@@ -123,7 +121,7 @@ plt.streamplot(X, Y, u1.reshape(X.shape), v1.reshape(X.shape),density=2)
 plt.xlabel('x')
 plt.ylabel('y')
 plt.show()
-plt.quiver(X, Y, u1.reshape(X.shape), v1.reshape(X.shape),color='r')
+plt.quiver(X, Y, u1.reshape(X.shape), v1.reshape(X.shape),color='r',scale=20)
 plt.xlabel('x')
 plt.ylabel('y')
 plt.show()

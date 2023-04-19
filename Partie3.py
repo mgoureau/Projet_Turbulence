@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import interpolate
 
+tmaillage = 1
+
 def interpolation(Vitesse,Positionnew,Positionold):
     l,c = Vitesse.shape
     Vitnew = np.zeros((l,c))
@@ -20,9 +22,9 @@ def CalculPosition(X,Y,U,V,dt):
         for j in range(c):
             Xnew[i,j] = X[i,j] - U[i,j]*dt
             Ynew[i,j] = Y[i,j] - V[i,j]*dt
-            if (Xnew[i,j] < 0 and Xnew[i,j] > 6.71391989E+01):
+            if Xnew[i,j] < 0 or Xnew[i,j] > 67.2/tmaillage:
                 Xnew[i,j] = X[i,j]
-            if (Ynew[i,j] < -9.49012463 and Ynew[i,j] > 9.87634180):
+            if Ynew[i,j] < -9.5/tmaillage or Ynew[i,j] > 9.9/tmaillage:
                 Ynew[i,j] = Y[i,j]
     return Xnew,Ynew
 
@@ -30,15 +32,15 @@ with open('./champs/champ0020.dat', 'r') as f:
     champs20 = f.readlines()
 x20,y20,u20,v20 = [],[],[],[]
 for line in champs20[2::]:
-    x20.append(float(line.split()[0])/2)
-    y20.append(float(line.split()[1])/2)
+    x20.append(float(line.split()[0])/tmaillage)
+    y20.append(float(line.split()[1])/tmaillage)
     u20.append(float(line.split()[2]))
     v20.append(float(line.split()[3]))
 X20,Y20,u20,v20=np.array(x20),np.array(y20),np.array(u20),np.array(v20)
 X20, Y20 = np.meshgrid(np.unique(X20), np.unique(Y20))
 U20 = u20.reshape(X20.shape)
 V20 = v20.reshape(Y20.shape)
-plt.contourf(X20, Y20, U20,25, cmap='coolwarm')
+plt.contourf(X20, Y20, U20,20, cmap='coolwarm')
 plt.xlabel('x')
 plt.ylabel('y')
 plt.show()
@@ -92,13 +94,14 @@ for i in range(dX1dx20.shape[0]):
             At= np.transpose(A)
             VPmax[i,j]=max(np.linalg.eigvals(np.dot(At,A)))
 
-T = 19*dt
+T = 20*dt
 
 FTLE = np.log(VPmax)/(2*T)
 
-CS=plt.contourf(X1, Y1, FTLE,25, cmap='coolwarm')
+
 xmesh, ymesh = np.meshgrid(np.unique(X20), np.unique(Y20))
-# plt.quiver(xmesh, ymesh, U20, V20, color='k', scale=75)
+CS=plt.contourf(xmesh, ymesh, FTLE,25, cmap='coolwarm')
+# plt.quiver(xmesh, ymesh, U20-0.5719103015997616, V20, color='k', scale=25)
 cbar = plt.colorbar(CS)
 cbar.ax.set_ylabel('FTLE')
 plt.xlabel('x')
