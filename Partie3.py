@@ -22,9 +22,9 @@ def CalculPosition(X,Y,U,V,dt):
         for j in range(c):
             Xnew[i,j] = X[i,j] - U[i,j]*dt
             Ynew[i,j] = Y[i,j] - V[i,j]*dt
-            if Xnew[i,j] < 0 or Xnew[i,j] > 67.2/tmaillage:
+            if Xnew[i,j] < 0 or Xnew[i,j] > 67.2*1e-3/tmaillage:
                 Xnew[i,j] = X[i,j]
-            if Ynew[i,j] < -9.5/tmaillage or Ynew[i,j] > 9.9/tmaillage:
+            if Ynew[i,j] < -9.5*1e-3/tmaillage or Ynew[i,j] > 9.9*1e-3/tmaillage:
                 Ynew[i,j] = Y[i,j]
     return Xnew,Ynew
 
@@ -32,8 +32,8 @@ with open('./champs/champ0020.dat', 'r') as f:
     champs20 = f.readlines()
 x20,y20,u20,v20 = [],[],[],[]
 for line in champs20[2::]:
-    x20.append(float(line.split()[0])/tmaillage)
-    y20.append(float(line.split()[1])/tmaillage)
+    x20.append(float(line.split()[0])*1e-3/tmaillage)
+    y20.append(float(line.split()[1])*1e-3/tmaillage)
     u20.append(float(line.split()[2]))
     v20.append(float(line.split()[3]))
 X20,Y20,u20,v20=np.array(x20),np.array(y20),np.array(u20),np.array(v20)
@@ -45,7 +45,7 @@ plt.xlabel('x')
 plt.ylabel('y')
 plt.show()
 
-dt = 25e-3
+dt = 2.5e-3
 
 def CalculChamp(X,Y,U,V,dt):
     Xnew,Ynew = CalculPosition(X,Y,U,V,dt)
