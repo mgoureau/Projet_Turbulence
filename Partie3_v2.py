@@ -6,7 +6,7 @@ import os
 folder_path = './champs/'
 file_names = sorted(os.listdir(folder_path))
 
-tmaillage = 8
+tmaillage = 4
 
 dt = 2.5
 
@@ -180,10 +180,11 @@ plt.show()
 dx = (X20[0,1]-X20[0,0])
 dy = (Y20[1,0]-Y20[0,0])
 
-dX1dx20 = np.gradient(X1,dx,axis=0)
-dX1dy20 = np.gradient(X1,dy,axis=1)
-dY1dx20 = np.gradient(Y1,dx,axis=0)
-dY1dy20 = np.gradient(Y1,dy,axis=1)
+dX1dx20 = np.gradient(X1,dx,axis=1)
+dX1dy20 = np.gradient(X1,dy,axis=0)
+
+dY1dx20 = np.gradient(Y1,dx,axis=1)
+dY1dy20 = np.gradient(Y1,dy,axis=0)
 
 VPmax = np.zeros((dX1dx20.shape))
 
@@ -198,7 +199,7 @@ for i in range(dX1dx20.shape[0]):
         AtA = np.matmul(At,A)
         VPmax[i,j]=max(np.linalg.eigvalsh(AtA))
 
-T = 20*dt
+T = 19*dt
 
 FTLE = np.log(VPmax)/(2*T)
 
@@ -209,6 +210,7 @@ cbar = plt.colorbar(CS)
 cbar.ax.set_ylabel('FTLE')
 plt.xlabel('x')
 plt.ylabel('y')
+plt.savefig('maillage4.eps', format='eps')
 plt.show()
 
 # Xm19 = Xm20 - U20*dt
