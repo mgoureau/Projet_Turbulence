@@ -6,7 +6,7 @@ import os
 folder_path = './champs/'
 file_names = sorted(os.listdir(folder_path))
 
-tmaillage = 4
+tmaillage = 1
 
 dt = 2.5
 
@@ -92,32 +92,32 @@ X16,Y16=CalculPosition(X17,Y17,U17interp,V17interp,dt)
 u16,v16 = recupereDonnees(file_names[4])[2].reshape(xx.shape),recupereDonnees(file_names[4])[3].reshape(xx.shape)
 U16,V16 = augMatrice(u16,xx[0],yy[:,0],X16[0],Y16[:,0]).reshape(X16.shape),augMatrice(v16,xx[0],yy[:,0],X16[0],Y16[:,0]).reshape(Y16.shape)
 U16interp,V16interp = interpolation(U16,X17[0],Y17[:,0],X16,Y16),interpolation(V16,X17[0],Y17[:,0],X20,Y20)
-
+print("16")
 X15,Y15=CalculPosition(X16,Y16,U16interp,V16interp,dt)
 u15,v15 = recupereDonnees(file_names[5])[2].reshape(xx.shape),recupereDonnees(file_names[5])[3].reshape(xx.shape)
 U15,V15 = augMatrice(u15,xx[0],yy[:,0],X15[0],Y15[:,0]).reshape(X15.shape),augMatrice(v15,xx[0],yy[:,0],X15[0],Y15[:,0]).reshape(Y15.shape)
 U15interp,V15interp = interpolation(U15,X16[0],Y16[:,0],X15,Y15),interpolation(V15,X16[0],Y16[:,0],X20,Y20)
-
+print("15")
 X14,Y14=CalculPosition(X15,Y15,U15interp,V15interp,dt)
 u14,v14 = recupereDonnees(file_names[6])[2].reshape(xx.shape),recupereDonnees(file_names[6])[3].reshape(xx.shape)
 U14,V14 = augMatrice(u14,xx[0],yy[:,0],X14[0],Y14[:,0]).reshape(X14.shape),augMatrice(v14,xx[0],yy[:,0],X14[0],Y14[:,0]).reshape(Y14.shape)
 U14interp,V14interp = interpolation(U14,X15[0],Y15[:,0],X14,Y14),interpolation(V14,X15[0],Y15[:,0],X20,Y20)
-
+print("14")
 X13,Y13=CalculPosition(X14,Y14,U14interp,V14interp,dt)
 u13,v13 = recupereDonnees(file_names[7])[2].reshape(xx.shape),recupereDonnees(file_names[7])[3].reshape(xx.shape)
 U13,V13 = augMatrice(u13,xx[0],yy[:,0],X13[0],Y13[:,0]).reshape(X13.shape),augMatrice(v13,xx[0],yy[:,0],X13[0],Y13[:,0]).reshape(Y13.shape)
 U13interp,V13interp = interpolation(U13,X14[0],Y14[:,0],X13,Y13),interpolation(V13,X14[0],Y14[:,0],X20,Y20)
-
+print("13")
 X12,Y12=CalculPosition(X13,Y13,U13interp,V13interp,dt)
 u12,v12 = recupereDonnees(file_names[8])[2].reshape(xx.shape),recupereDonnees(file_names[8])[3].reshape(xx.shape)
 U12,V12 = augMatrice(u12,xx[0],yy[:,0],X12[0],Y12[:,0]).reshape(X12.shape),augMatrice(v12,xx[0],yy[:,0],X12[0],Y12[:,0]).reshape(Y12.shape)
 U12interp,V12interp = interpolation(U12,X13[0],Y13[:,0],X12,Y12),interpolation(V12,X13[0],Y13[:,0],X20,Y20)
-
+print("12")
 X11,Y11=CalculPosition(X12,Y12,U12interp,V12interp,dt)
 u11,v11 = recupereDonnees(file_names[9])[2].reshape(xx.shape),recupereDonnees(file_names[9])[3].reshape(xx.shape)
 U11,V11 = augMatrice(u11,xx[0],yy[:,0],X11[0],Y11[:,0]).reshape(X11.shape),augMatrice(v11,xx[0],yy[:,0],X11[0],Y11[:,0]).reshape(Y11.shape)
 U11interp,V11interp = interpolation(U11,X12[0],Y12[:,0],X11,Y11),interpolation(V11,X12[0],Y12[:,0],X20,Y20)
-
+print("11")
 X10,Y10=CalculPosition(X11,Y11,U11interp,V11interp,dt)
 u10,v10 = recupereDonnees(file_names[10])[2].reshape(xx.shape),recupereDonnees(file_names[10])[3].reshape(xx.shape)
 U10,V10 = augMatrice(u10,xx[0],yy[:,0],X10[0],Y10[:,0]).reshape(X10.shape),augMatrice(v10,xx[0],yy[:,0],X10[0],Y10[:,0]).reshape(Y10.shape)
@@ -210,7 +210,7 @@ cbar = plt.colorbar(CS)
 cbar.ax.set_ylabel('FTLE')
 plt.xlabel('x')
 plt.ylabel('y')
-plt.savefig('maillage4.eps', format='eps')
+# plt.savefig('maillage4.eps', format='eps')
 plt.show()
 
 # Xm19 = Xm20 - U20*dt
